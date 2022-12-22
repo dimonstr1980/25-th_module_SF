@@ -1,5 +1,5 @@
 *.pyc
-settings.py
-pytest.ini
+#settings.py
+#pytest.ini
 chromedriver.exe
 /.idea

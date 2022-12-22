@@ -1,3 +1,4 @@
+import pytest
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -5,8 +6,17 @@ from settings import *
 from selenium import webdriver
 
 
+@pytest.fixture(scope="session")
+def setup():
+    driver = webdriver.Chrome(chrome_path)
+
+    yield
+
+    driver.close()
+
+
 class TestCase:
-    def test_case_1(self):
+    def test_case_1(self, setup):
         # Инициализируем WebDriver
         driver = webdriver.Chrome()
         # Загружаем страницу
@@ -32,10 +42,7 @@ class TestCase:
         assert driver.find_element(By.CSS_SELECTOR, "div:nth-of-type(2) > div.card"), 'Что-то пошло не так!'
         print('Всё прошло успешно!')
 
-        # Выход
-        driver.quit()
-
-    def test_case_2(self):
+    def test_case_2(self, setup):
         # Инициализируем WebDriver
         driver = webdriver.Chrome()
         # Переходим на страницу авторизации
@@ -57,10 +64,7 @@ class TestCase:
         assert driver.find_element(By.TAG_NAME, "h1").text == "PetFriends", 'Что-то пошло не так!'
         print('Всё прошло успешно!')
 
-        # Выход
-        driver.quit()
-
-    def test_case_3(self):
+    def test_case_3(self, setup):
         # Инициализируем WebDriver
         driver = webdriver.Chrome()
         # Переходим на страницу авторизации
@@ -109,5 +113,3 @@ class TestCase:
             assert len(parts[1]) > 0
 
         print('Всё прошло успешно! Но это не точно... :)')
-        # Выход
-        driver.close()
